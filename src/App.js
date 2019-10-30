@@ -4,6 +4,7 @@ import uuid from "uuid";
 
 import Header from "./components/Header";
 import AddTodo from "./components/AddTodo";
+import TodoList from "./components/TodoList";
 import "./App.css";
 
 class App extends Component {
@@ -17,12 +18,15 @@ class App extends Component {
   }
 
   addTodo(title) {
-    const todo = {
+    const newTodo = {
       id: uuid.v4(),
       title,
       completed: false
     };
-    this.state.todos.push(todo);
+    const { todos } = this.state;
+    this.setState({
+      todos: [...todos, newTodo]
+    });
   }
 
   render() {
@@ -30,6 +34,7 @@ class App extends Component {
       <BaseStyles className="App">
         <Header />
         <AddTodo addTodo={this.addTodo} />
+        <TodoList todos={this.state.todos} />
       </BaseStyles>
     );
   }
