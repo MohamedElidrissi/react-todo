@@ -1,7 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { BaseStyles } from "@primer/components";
 import uuid from "uuid";
 
+import About from "./pages/About";
 import Header from "./components/Header";
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
@@ -55,13 +57,24 @@ class App extends Component {
   render() {
     return (
       <BaseStyles className="App">
-        <Header />
-        <AddTodo addTodo={this.addTodo} />
-        <TodoList
-          todos={this.state.todos}
-          toggleComplete={this.toggleComplete}
-          deleteTodo={this.deleteTodo}
-        />
+        <Router>
+          <Header />
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <Fragment>
+                <AddTodo addTodo={this.addTodo} />
+                <TodoList
+                  todos={this.state.todos}
+                  toggleComplete={this.toggleComplete}
+                  deleteTodo={this.deleteTodo}
+                />
+              </Fragment>
+            )}
+          />
+          <Route path="/about" component={About} />
+        </Router>
       </BaseStyles>
     );
   }
