@@ -15,13 +15,14 @@ class App extends Component {
       todos: []
     };
     this.addTodo = this.addTodo.bind(this);
+    this.deleteTodo = this.deleteTodo.bind(this);
   }
 
   addTodo(title) {
     const newTodo = {
       id: uuid.v4(),
       title,
-      completed: false
+      isComplete: false
     };
     const { todos } = this.state;
     this.setState({
@@ -29,12 +30,33 @@ class App extends Component {
     });
   }
 
+  toggleComplete = id => {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.map(todo => {
+        if (todo.id === id) {
+          todo.isComplete = !todo.isComplete;
+        }
+        return todo;
+      })
+    });
+  };
+
+  deleteTodo(id) {
+    const { todos } = this.state;
+    this.setState({ todos: todos.filter(todo => todo.id !== id) });
+  }
+
   render() {
     return (
       <BaseStyles className="App">
         <Header />
         <AddTodo addTodo={this.addTodo} />
-        <TodoList todos={this.state.todos} />
+        <TodoList
+          todos={this.state.todos}
+          toggleComplete={this.toggleComplete}
+          deleteTodo={this.deleteTodo}
+        />
       </BaseStyles>
     );
   }

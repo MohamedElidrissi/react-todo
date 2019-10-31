@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { BorderBox, Box, Grid, Text } from "@primer/components";
+import { BorderBox, Grid } from "@primer/components";
+
+import TodoItem from "./TodoItem";
 
 export class TodoList extends Component {
   render() {
@@ -17,11 +19,12 @@ export class TodoList extends Component {
           <BorderBox px={4} style={{ gridColumn: "2/3" }}>
             {this.props.todos.map(todo => {
               return (
-                <Box key={todo.id}>
-                  <Text as="p" display="inline-block">
-                    {todo.title}
-                  </Text>
-                </Box>
+                <TodoItem
+                  key={todo.id}
+                  todo={todo}
+                  toggleComplete={this.props.toggleComplete}
+                  deleteTodo={this.props.deleteTodo}
+                />
               );
             })}
           </BorderBox>
