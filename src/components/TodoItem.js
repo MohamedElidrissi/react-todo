@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { ButtonDanger, Flex, Text } from "@primer/components";
 
 export class TodoItem extends Component {
@@ -28,5 +29,11 @@ export class TodoItem extends Component {
     );
   }
 }
+
+TodoItem.propTypes = {
+  todo: PropTypes.object.isRequired,
+  toggleComplete: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired
+};
 
 export default TodoItem;

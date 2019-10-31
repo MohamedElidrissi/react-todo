@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { BorderBox, Grid } from "@primer/components";
 
 import TodoItem from "./TodoItem";
@@ -33,5 +34,11 @@ export class TodoList extends Component {
     );
   }
 }
+
+TodoList.propTypes = {
+  todos: PropTypes.array.isRequired,
+  toggleComplete: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired
+};
 
 export default TodoList;
