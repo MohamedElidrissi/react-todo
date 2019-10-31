@@ -13,8 +13,8 @@ export class Header extends Component {
         alignItems="center"
         py={4}
       >
-        <Box display="inline-block">
-          <Heading display="inline-block">TodoList</Heading>
+        <Box>
+          <Heading>TodoList</Heading>
         </Box>
         <Box as="nav" pt={2}>
           <Link as={RouterLink} to="/" style={LinkStyle} mr={2}>
