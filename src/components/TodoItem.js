@@ -6,7 +6,7 @@ export class TodoItem extends Component {
   TitleStyle = () => {
     return {
       flex: "auto",
-      textDecoration: this.props.todo.isComplete ? "line-through" : "none"
+      textDecoration: this.props.todo.completed ? "line-through" : "none"
     };
   };
 
@@ -16,7 +16,7 @@ export class TodoItem extends Component {
       <Flex alignItems="center">
         <input
           type="checkbox"
-          value={todo.isComplete}
+          checked={this.props.todo.completed}
           onChange={this.props.toggleComplete.bind(this, todo.id)}
         ></input>
         <Text as="p" ml={2} style={this.TitleStyle()}>

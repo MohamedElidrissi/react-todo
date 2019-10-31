@@ -11,18 +11,23 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      todos: []
-    };
+    this.state = { todos: [] };
     this.addTodo = this.addTodo.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
+  }
+
+  async componentDidMount() {
+    const todos = await fetch(
+      "https://jsonplaceholder.typicode.com/todos?_limit=30"
+    ).then(res => res.json());
+    this.setState({ todos });
   }
 
   addTodo(title) {
     const newTodo = {
       id: uuid.v4(),
       title,
-      isComplete: false
+      completed: false
     };
     const { todos } = this.state;
     this.setState({
@@ -35,7 +40,7 @@ class App extends Component {
     this.setState({
       todos: todos.map(todo => {
         if (todo.id === id) {
-          todo.isComplete = !todo.isComplete;
+          todo.completed = !todo.completed;
         }
         return todo;
       })
