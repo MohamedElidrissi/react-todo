@@ -33,7 +33,7 @@ class App extends Component {
     };
     const { todos } = this.state;
     this.setState({
-      todos: [...todos, newTodo]
+      todos: [newTodo, ...todos]
     });
   }
 
