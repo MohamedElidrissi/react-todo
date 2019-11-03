@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { BaseStyles } from "@primer/components";
 import uuid from "uuid";
@@ -9,76 +9,60 @@ import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
 import "./App.css";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+const App = () => {
+  const [todos, setTodos] = useState([]);
 
-    this.state = { todos: [] };
-    this.addTodo = this.addTodo.bind(this);
-    this.deleteTodo = this.deleteTodo.bind(this);
-  }
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/todos?_limit=30")
+      .then(res => res.json())
+      .then(setTodos);
+  }, []);
 
-  async componentDidMount() {
-    const todos = await fetch(
-      "https://jsonplaceholder.typicode.com/todos?_limit=30"
-    ).then(res => res.json());
-    this.setState({ todos });
-  }
-
-  addTodo(title) {
+  const addTodo = title => {
     const newTodo = {
       id: uuid.v4(),
       title,
       completed: false
     };
-    const { todos } = this.state;
-    this.setState({
-      todos: [newTodo, ...todos]
-    });
-  }
+    setTodos([newTodo, ...todos]);
+  };
 
-  toggleComplete = id => {
-    const { todos } = this.state;
-    this.setState({
-      todos: todos.map(todo => {
+  const toggleComplete = id => {
+    setTodos(
+      todos.map(todo => {
         if (todo.id === id) {
           todo.completed = !todo.completed;
         }
         return todo;
       })
-    });
+    );
   };
 
-  deleteTodo(id) {
-    const { todos } = this.state;
-    this.setState({ todos: todos.filter(todo => todo.id !== id) });
-  }
+  const deleteTodo = id => setTodos(todos.filter(todo => todo.id !== id));
 
-  render() {
-    return (
-      <BaseStyles className="App">
-        <Router>
-          <Header />
-          <Switch>
-            <Route path="/about" component={About} />
-            <Route
-              path="/"
-              render={() => (
-                <Fragment>
-                  <AddTodo addTodo={this.addTodo} />
-                  <TodoList
-                    todos={this.state.todos}
-                    toggleComplete={this.toggleComplete}
-                    deleteTodo={this.deleteTodo}
-                  />
-                </Fragment>
-              )}
-            />
-          </Switch>
-        </Router>
-      </BaseStyles>
-    );
-  }
-}
+  return (
+    <BaseStyles className="App">
+      <Router>
+        <Header />
+        <Switch>
+          <Route path="/about" component={About} />
+          <Route
+            path="/"
+            render={() => (
+              <Fragment>
+                <AddTodo addTodo={addTodo} />
+                <TodoList
+                  todos={todos}
+                  toggleComplete={toggleComplete}
+                  deleteTodo={deleteTodo}
+                />
+              </Fragment>
+            )}
+          />
+        </Switch>
+      </Router>
+    </BaseStyles>
+  );
+};
 
 export default App;
