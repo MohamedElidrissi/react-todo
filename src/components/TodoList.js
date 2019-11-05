@@ -1,9 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext, useEffect } from "react";
 import { BorderBox, Grid } from "@primer/components";
 import TodoItem from "./TodoItem";
+import TodoContext from "../context/todo/todoContext";
 
-const TodoList = ({ todos, toggleComplete, deleteTodo }) => {
+const TodoList = () => {
+  const { todos, fetchTodos } = useContext(TodoContext);
+
+  useEffect(() => {
+    fetchTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Grid
       gridTemplateColumns={[
@@ -16,26 +23,13 @@ const TodoList = ({ todos, toggleComplete, deleteTodo }) => {
       {/* Avoid showing the BorderBox element when there is no todos */}
       {todos.length > 0 && (
         <BorderBox px={4} style={{ gridColumn: "2/3" }}>
-          {todos.map(todo => {
-            return (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                toggleComplete={toggleComplete}
-                deleteTodo={deleteTodo}
-              />
-            );
-          })}
+          {todos.map(todo => (
+            <TodoItem key={todo.id} todo={todo} />
+          ))}
         </BorderBox>
       )}
     </Grid>
   );
-};
-
-TodoList.propTypes = {
-  todos: PropTypes.array.isRequired,
-  toggleComplete: PropTypes.func.isRequired,
-  deleteTodo: PropTypes.func.isRequired
 };
 
 export default TodoList;

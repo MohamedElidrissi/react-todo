@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { ButtonDanger, Flex, Text } from "@primer/components";
+import TodoContext from "../context/todo/todoContext";
 
-const TodoItem = ({ todo, toggleComplete, deleteTodo }) => {
+const TodoItem = ({ todo }) => {
+  const { deleteTodo, toggleComplete } = useContext(TodoContext);
+
   const TitleStyle = () => {
     return {
       flex: "auto",
@@ -16,7 +19,7 @@ const TodoItem = ({ todo, toggleComplete, deleteTodo }) => {
         type="checkbox"
         checked={todo.completed}
         onChange={toggleComplete.bind(this, todo.id)}
-      ></input>
+      />
       <Text as="p" ml={2} style={TitleStyle()}>
         {todo.title}
       </Text>
@@ -26,9 +29,7 @@ const TodoItem = ({ todo, toggleComplete, deleteTodo }) => {
 };
 
 TodoItem.propTypes = {
-  todo: PropTypes.object.isRequired,
-  toggleComplete: PropTypes.func.isRequired,
-  deleteTodo: PropTypes.func.isRequired
+  todo: PropTypes.object.isRequired
 };
 
 export default TodoItem;

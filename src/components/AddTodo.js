@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useContext } from "react";
+import TodoContext from "../context/todo/todoContext";
 import {
   BorderBox,
   ButtonPrimary,
@@ -8,7 +8,9 @@ import {
   TextInput
 } from "@primer/components";
 
-const AddTodo = ({ addTodo }) => {
+const AddTodo = () => {
+  const { addTodo } = useContext(TodoContext);
+
   const [title, setTitle] = useState("");
 
   const onSubmit = e => {
@@ -40,10 +42,6 @@ const AddTodo = ({ addTodo }) => {
       </BorderBox>
     </Grid>
   );
-};
-
-AddTodo.propTypes = {
-  addTodo: PropTypes.func.isRequired
 };
 
 export default AddTodo;
